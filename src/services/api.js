@@ -13,6 +13,6 @@ export const getImages = async (q, page) => {
     key: '41224920-e0172563ca95fa25f351d5f8a',
   };
 
-  const { data } = await axios.get('', { params });
+  const { data } = await axios.get('/', { params });
   return data;
 };
