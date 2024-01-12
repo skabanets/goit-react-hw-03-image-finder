@@ -10,7 +10,7 @@ export class Searchbar extends Component {
     e.preventDefault();
 
     const { query } = this.state;
-    this.props.onSubmit(query);
+    this.props.onSubmit(query.trim());
     this.setState({ query: '' });
   };
 

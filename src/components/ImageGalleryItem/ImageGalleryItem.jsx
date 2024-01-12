@@ -1,4 +1,3 @@
-import React from 'react';
 import s from './imageGalleryItem.module.css';
 
 export const ImageGalleryItem = ({ content, openModal }) => {
