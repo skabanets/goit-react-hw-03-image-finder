@@ -4,6 +4,7 @@ import { getImages } from 'services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import s from './App.module.css';
+import Modal from './Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -71,8 +72,8 @@ export class App extends Component {
     }
   };
 
-  handleClickImage = image => {
-    this.setState({ modalContent: image });
+  handleClickImage = (url = '') => {
+    this.setState({ modalContent: url });
   };
 
   handleLoadMore = () => {
@@ -80,32 +81,33 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading, isLoadMore, isEmpty, isError } = this.state;
+    const { images, isLoading, isLoadMore, isEmpty, isError, modalContent } =
+      this.state;
+    console.log(modalContent);
 
     return (
       <div className={s.App}>
         <Searchbar onSubmit={this.handleSubmit} />
-
         {isEmpty && (
           <Notification
             text="No images found for your request.
             Try to enter another query."
           />
         )}
-
         {isError && (
           <Notification
             text="Oops, something's wrong!
               Reload page or try again later."
           />
         )}
-
         {!isEmpty && (
           <ImageGallery images={images} openModal={this.handleClickImage} />
         )}
-
         {isLoadMore && <Button onClick={this.handleLoadMore} />}
         {isLoading && <Loader />}
+        {modalContent && (
+          <Modal imageLink={modalContent} closeModal={this.handleClickImage} />
+        )}
         <ToastContainer />
       </div>
     );
