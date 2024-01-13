@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { Searchbar } from './Searchbar/Searchbar';
+import { Searchbar, ImageGallery, Button, Notification, Loader } from './index';
 import { getImages } from 'services/api';
-import { ImageGallery } from './ImageGallery/ImageGallery';
-import { Button } from './Button/Button';
-import { Notification } from './Notification/Notification';
-import { Loader } from './Loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import s from './App.module.css';
