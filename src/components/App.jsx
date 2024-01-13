@@ -4,18 +4,19 @@ import { getImages } from 'services/api';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Notification } from './Notification/Notification';
+import { Loader } from './Loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
-import s from './App.module.css';
 import 'react-toastify/dist/ReactToastify.css';
+import s from './App.module.css';
 
 export class App extends Component {
   state = {
     images: [],
     query: '',
     page: 1,
+    isLoading: false,
     isLoadMore: false,
     isEmpty: false,
-
     isError: false,
     modalContent: null,
   };
@@ -25,8 +26,10 @@ export class App extends Component {
 
     if (prevState.query !== query || prevState.page !== page) {
       try {
+        this.setState({ isLoading: true });
         const res = await getImages(query, page);
         const { hits: images, totalHits: totalImages } = res;
+        const totalPages = Math.ceil(totalImages / 60);
 
         if (!images.length) {
           this.setState({ isEmpty: true });
@@ -34,14 +37,26 @@ export class App extends Component {
           return;
         }
 
-        toast.success(`We found ${totalImages} images`, { autoClose: 2000 });
+        if (page === 1) {
+          toast.success(`We found ${totalImages} images`, { autoClose: 2000 });
+        }
+
+        if (page !== 1 && page === totalPages) {
+          toast.warning(
+            `We're sorry, but you've reached the end of search results.`,
+            { autoClose: 2000 }
+          );
+        }
+
         this.setState(prevState => ({
           images: [...prevState.images, ...images],
-          isLoadMore: page < Math.ceil(totalImages / 40),
+          isLoadMore: page < totalPages,
         }));
       } catch (error) {
         this.setState({ isError: true });
         toast.error(`${error.message}`, { autoClose: 2000 });
+      } finally {
+        this.setState({ isLoading: false });
       }
     }
   }
@@ -69,7 +84,7 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoadMore, isEmpty, isError } = this.state;
+    const { images, isLoading, isLoadMore, isEmpty, isError } = this.state;
 
     return (
       <div className={s.App}>
@@ -94,6 +109,7 @@ export class App extends Component {
         )}
 
         {isLoadMore && <Button onClick={this.handleLoadMore} />}
+        {isLoading && <Loader />}
         <ToastContainer />
       </div>
     );

@@ -6,7 +6,7 @@ export const getImages = async (q, page) => {
   const params = {
     q,
     page,
-    per_page: 40,
+    per_page: 60,
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
