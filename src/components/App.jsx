@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Searchbar, ImageGallery, Button, Notification, Loader } from './index';
+import {
+  Searchbar,
+  ImageGallery,
+  Button,
+  Notification,
+  Loader,
+  Modal,
+} from './index';
 import { getImages } from 'services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import s from './App.module.css';
-import Modal from './Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -81,9 +87,15 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading, isLoadMore, isEmpty, isError, modalContent } =
-      this.state;
-    console.log(modalContent);
+    const {
+      query,
+      images,
+      isLoading,
+      isLoadMore,
+      isEmpty,
+      isError,
+      modalContent,
+    } = this.state;
 
     return (
       <div className={s.App}>
@@ -100,7 +112,7 @@ export class App extends Component {
               Reload page or try again later."
           />
         )}
-        {!isEmpty && (
+        {!isEmpty && query && (
           <ImageGallery images={images} openModal={this.handleClickImage} />
         )}
         {isLoadMore && <Button onClick={this.handleLoadMore} />}

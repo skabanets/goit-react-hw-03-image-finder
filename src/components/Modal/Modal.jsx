@@ -4,10 +4,12 @@ import s from './Modal.module.css';
 export class Modal extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.handleEscapePress);
+    document.body.style.overflow = 'hidden';
   }
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleEscapePress);
+    document.body.style.overflow = 'scroll';
   }
 
   handleBackdropClick = e => {
@@ -15,7 +17,6 @@ export class Modal extends Component {
   };
 
   handleEscapePress = e => {
-    console.log(e.key);
     if (e.key === 'Escape') this.props.closeModal();
   };
 
@@ -31,5 +32,3 @@ export class Modal extends Component {
     );
   }
 }
-
-export default Modal;
