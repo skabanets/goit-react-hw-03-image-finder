@@ -1,13 +1,12 @@
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import s from './imageGallery.module.css';
-import { nanoid } from 'nanoid';
 
 export const ImageGallery = ({ images, openModal }) => {
   return (
     <ul className={s.ImageGallery}>
-      {images.map(image => (
+      {images.map((image, index) => (
         <ImageGalleryItem
-          key={nanoid()}
+          key={index + 1}
           content={image}
           openModal={openModal}
         />
